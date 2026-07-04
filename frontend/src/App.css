@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Grotesk:wght@300;500;700&display=swap');
+
+:root {
+  --happy-glow: #f093fb;
+  --sad-glow: #4facfe;
+  --stressed-glow: #43e97b;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #020202;
+  color: white;
+  overflow-x: hidden;
+}
+
+/* The Animated Neural Waveform Background */
+.waveform-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.4;
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.wave {
+  position: absolute;
+  width: 150%;
+  height: 150%;
+  top: -25%;
+  left: -25%;
+  background: radial-gradient(circle at center, var(--current-glow) 0%, transparent 60%);
+  animation: waveMovement 10s infinite alternate ease-in-out;
+}
+
+@keyframes waveMovement {
+  0% { transform: scale(1) translate(0, 0) rotate(0deg); }
+  50% { transform: scale(1.2) translate(-5%, 5%) rotate(5deg); }
+  100% { transform: scale(1) translate(5%, -5%) rotate(-5deg); }
+}
+
+.app {
+  min-height: 100vh;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  transition: all 1s ease;
+}
+
+/* Themes */
+.app.happy { --current-glow: var(--happy-glow); }
+.app.sad { --current-glow: var(--sad-glow); }
+.app.stressed { --current-glow: var(--stressed-glow); }
+
+/* Glass Cards */
+.card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  padding: 30px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+  transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:hover {
+  border-color: var(--current-glow);
+  transform: translateY(-5px);
+  box-shadow: 0 0 30px rgba(0,0,0,0.5), inset 0 0 10px rgba(255,255,255,0.05);
+}
+
+/* Typography */
+.header h1 {
+  font-family: 'Syncopate', sans-serif;
+  font-size: clamp(2rem, 10vw, 5rem);
+  letter-spacing: -2px;
+  background: linear-gradient(to bottom, #fff, var(--current-glow));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Visualizer Bars */
+.visualizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 50px;
+}
+
+.bar {
+  width: 5px;
+  background: var(--current-glow);
+  border-radius: 20px;
+  box-shadow: 0 0 10px var(--current-glow);
+  animation: v-bounce 0.5s infinite alternate;
+}
+
+@keyframes v-bounce {
+  from { height: 10%; }
+  to { height: 100%; }
+}
+
+/* UI Components */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 25px;
+  margin-top: 50px;
+}
+
+.camera-box {
+  height: 300px;
+  background: rgba(0,0,0,0.5);
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scan-line {
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  background: var(--current-glow);
+  box-shadow: 0 0 20px var(--current-glow);
+  animation: scan 3s linear infinite;
+}
+
+@keyframes scan {
+  0% { top: -10%; }
+  100% { top: 110%; }
+}
+
+button {
+  padding: 15px 30px;
+  border-radius: 15px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  color: white;
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.active-btn {
+  background: var(--current-glow) !important;
+  color: #000 !important;
+  box-shadow: 0 0 20px var(--current-glow);
+}
+
+.song-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 20px;
+  margin-bottom: 15px;
+  transition: 0.3s;
+}
+
+.song-item:hover {
+  background: rgba(255,255,255,0.08);
+  transform: scale(1.02);
+}
+
+/* Transition Overlay */
+.transition-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--current-glow);
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.flash-active {
+  animation: flash 0.5s ease-out;
+}
+
+.error-text {
+  text-align: center;
+  color: #ff9b9b;
+  margin-bottom: 16px;
+  font-weight: bold;
+}
+
+@keyframes flash {
+  0% { opacity: 0.7; }
+  100% { opacity: 0; }
+}
